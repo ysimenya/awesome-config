@@ -1,6 +1,8 @@
 # Red Flat Awesome WM config
 Custom config for [Awesome WM](http://awesome.naquadah.org). All stuff like self-written widgets, utilities and modification parts of another's configs are collected in one module called `redflat`.
 
+Warning: this config was designed for awesome wm v3.5.6 and abandoned now. Check `master` branch for actual config version.
+
 Screenshots
 ----------
 [//]: # (TODO:relative link to image)
