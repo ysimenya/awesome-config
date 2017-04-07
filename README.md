@@ -5,7 +5,6 @@ Warning: this config was designed for awesome wm v3.5.6 and abandoned now. Check
 
 Screenshots
 ----------
-[//]: # (TODO:relative link to image)
 ![](https://github.com/worron/awesome-config/wiki/images/red-1.png)
 ---
 ![](https://github.com/worron/awesome-config/wiki/images/blue-1.png)
@@ -14,11 +13,11 @@ Screenshots
 
 Dependencies
 ------------
-######Main
+###### Main
 * Awesome WM 3.5.6
 * Lain module
 
-######Widgets
+###### Widgets
 *Under construction*
 
 Theme
