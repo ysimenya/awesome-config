@@ -101,24 +101,6 @@ tray.buttons = awful.util.table.join(
 	awful.button({}, 1, function() redflat.widget.minitray:toggle() end)
 )
 
--- PA volume control
---------------------------------------------------------------------------------
-local volume = {}
-volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.audio.red.new })
-
--- activate player widget
-redflat.float.player:init({ name = env.player })
-
-volume.buttons = awful.util.table.join(
-	awful.button({}, 4, function() redflat.widget.pulse:change_volume()                end),
-	awful.button({}, 5, function() redflat.widget.pulse:change_volume({ down = true }) end),
-	awful.button({}, 2, function() redflat.widget.pulse:mute()                         end),
-	awful.button({}, 3, function() redflat.float.player:show()                         end),
-	awful.button({}, 1, function() redflat.float.player:action("PlayPause")            end),
-	awful.button({}, 8, function() redflat.float.player:action("Previous")             end),
-	awful.button({}, 9, function() redflat.float.player:action("Next")                 end)
-)
-
 -- Keyboard layout indicator
 --------------------------------------------------------------------------------
 local kbindicator = {}
@@ -130,31 +112,9 @@ kbindicator.buttons = awful.util.table.join(
 	awful.button({}, 5, function () redflat.widget.keyboard:toggle(true)  end)
 )
 
--- Mail widget
---------------------------------------------------------------------------------
--- safe load private mail settings
-local my_mails = {}
-pcall(function() my_mails = require("green.mail-config") end)
-
--- widget setup
-local mail = {}
-mail.widget = redflat.widget.mail({ maillist = my_mails })
-
--- buttons
-mail.buttons = awful.util.table.join(
-	awful.button({ }, 1, function () awful.spawn.with_shell(env.mail) end),
-	awful.button({ }, 2, function () redflat.widget.mail:update() end)
-)
-
 -- System resource monitoring widgets
 --------------------------------------------------------------------------------
 local sysmon = { widget = {}, buttons = {} }
-
--- battery
-sysmon.widget.battery = redflat.widget.sysmon(
-	{ func = redflat.system.pformatted.bat(25), arg = "BAT0" },
-	{ timeout = 60, widget = redflat.gauge.monitor.dash }
-)
 
 -- network speed
 sysmon.widget.network = redflat.widget.net(
@@ -217,8 +177,6 @@ awful.screen.connect_for_each_screen(
 			{ -- left widgets
 				layout = wibox.layout.fixed.horizontal,
 
-				env.wrapper(volume.widget, "volume", volume.buttons),
-				separator,
 				env.wrapper(taglist[s], "taglist"),
 				separator,
 			},
@@ -235,13 +193,10 @@ awful.screen.connect_for_each_screen(
 				separator,
 				env.wrapper(sysmon.widget.network, "network"),
 				separator,
-				env.wrapper(mail.widget, "mail", mail.buttons),
-				separator,
 				env.wrapper(kbindicator.widget, "keyboard", kbindicator.buttons),
 				separator,
 				env.wrapper(sysmon.widget.cpu, "cpu", sysmon.buttons.cpu),
 				env.wrapper(sysmon.widget.ram, "ram", sysmon.buttons.ram),
-				env.wrapper(sysmon.widget.battery, "battery"),
 				separator,
 				env.wrapper(textclock.widget, "textclock"),
 				separator,
@@ -288,11 +243,3 @@ titlebar:init()
 local signals = require("green.signals-config") -- load file with signals configuration
 signals:init({ env = env })
 
-
--- Autostart user applications
------------------------------------------------------------------------------------------------------------------------
-local autostart = require("green.autostart-config") -- load file with autostart application list
-
-if timestamp.is_startup() then
-	autostart.run()
-end
