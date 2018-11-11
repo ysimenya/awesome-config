@@ -36,38 +36,25 @@ function desktop:init()
 		maxspeed     = { up = 5*1024^2, down = 5*1024^2 },
 		crit         = { up = 5*1024^2, down = 5*1024^2 },
 		timeout      = 2,
-		autoscale    = false
+		autoscale    = true
 	}
 
 	netspeed.style  = {}
 
-	-- SSD speed
-	--------------------------------------------------------------------------------
-	local ssdspeed = { geometry = wgeometry(grid, places.ssdspeed, workarea) }
-
-	ssdspeed.args = {
-		interface = "nvme0n1",
-		meter_function = system.disk_speed,
-		timeout   = 2,
-		label     = "SOLID DRIVE"
-	}
-
-	ssdspeed.style = {
-		unit   = { { "B", -1 }, { "KB", 2 }, { "MB", 2048 } },
-	}
-
 	-- HDD speed
 	--------------------------------------------------------------------------------
-	local hddspeed = { geometry = wgeometry(grid, places.hddspeed, workarea) }
+	local sdaspeed = { geometry = wgeometry(grid, places.sdaspeed, workarea) }
 
-	hddspeed.args = {
+	sdaspeed.args = {
 		interface = "sda",
 		meter_function = system.disk_speed,
 		timeout = 2,
-		label = "HARD DRIVE"
+		label = "SDA"
 	}
 
-	hddspeed.style = awful.util.table.clone(ssdspeed.style)
+	sdaspeed.style = {
+		unit   = { { "B", -1 }, { "KB", 2 }, { "MB", 2048 } },
+	}
 
 	-- CPU and memory usage
 	--------------------------------------------------------------------------------
@@ -107,17 +94,15 @@ function desktop:init()
 	disks.args = {
 		sensors  = {
 			{ meter_function = system.fs_info, maxm = 100, crit = 80, args = "/" },
-			{ meter_function = system.fs_info, maxm = 100, crit = 80, args = "/home" },
-			{ meter_function = system.fs_info, maxm = 100, crit = 80, args = "/opt" },
-			{ meter_function = system.fs_info, maxm = 100, crit = 80, args = "/mnt/media" }
+			{ meter_function = system.fs_info, maxm = 100, crit = 80, args = "/media/sdb" }
 		},
-		names   = {"root", "home", "misc", "data"},
+		names   = {"root", "data"},
 		timeout = 300
 	}
 
 	disks.style = {
 		unit      = { { "KB", 1 }, { "MB", 1024^1 }, { "GB", 1024^2 } },
-		show_text = false
+		show_text = true
 	}
 
 	-- Temperature indicator
@@ -128,9 +113,9 @@ function desktop:init()
 		sensors = {
 			{ meter_function = system.thermal.sensors, args = "'Package id 0'", maxm = 100, crit = 75 },
 			{ meter_function = system.thermal.hddtemp, args = { disk = "/dev/sda" }, maxm = 60, crit = 45 },
-			{ meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
+			{ meter_function = system.thermal.hddtemp, args = { disk = "/dev/sdb" }, maxm = 60, crit = 45 },
 		},
-		names   = { "cpu", "hdd", "gpu" },
+		names   = { "cpu", "sda", "sdb" },
 		timeout = 5
 	}
 
@@ -141,8 +126,7 @@ function desktop:init()
 	-- Initialize all desktop widgets
 	--------------------------------------------------------------------------------
 	netspeed.widget = redflat.desktop.speedgraph(netspeed.args, netspeed.geometry, netspeed.style)
-	ssdspeed.widget = redflat.desktop.speedgraph(ssdspeed.args, ssdspeed.geometry, ssdspeed.style)
-	hddspeed.widget = redflat.desktop.speedgraph(hddspeed.args, hddspeed.geometry, hddspeed.style)
+	sdaspeed.widget = redflat.desktop.speedgraph(sdaspeed.args, sdaspeed.geometry, sdaspeed.style)
 	cpumem.widget = redflat.desktop.multim(cpumem.args, cpumem.geometry, cpumem.style)
 	transm.widget = redflat.desktop.multim(transm.args, transm.geometry, transm.style)
 	disks.widget = redflat.desktop.dashpack(disks.args, disks.geometry, disks.style)

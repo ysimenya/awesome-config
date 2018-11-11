@@ -85,8 +85,6 @@ theme.icon = {
 -- Widget icons
 --------------------------------------------------------------------------------
 theme.icon.widget = {
-	battery  = theme.path .. "/widget/battery.svg",
-	wireless = theme.path .. "/widget/wireless.svg",
 	monitor  = theme.path .. "/widget/monitor.svg",
 }
 
@@ -181,8 +179,7 @@ theme.desktop.grid = {
 
 theme.desktop.places = {
 	netspeed = { 1, 1 },
-	ssdspeed = { 2, 1 },
-	hddspeed = { 3, 1 },
+	sdaspeed = { 3, 1 },
 	cpumem   = { 1, 2 },
 	transm   = { 1, 3 },
 	disks    = { 1, 4 },
