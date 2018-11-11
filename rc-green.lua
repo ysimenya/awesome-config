@@ -82,7 +82,7 @@ taglist.buttons = awful.util.table.join(
 local textclock = {}
 textclock.widget = redflat.widget.textclock({ timeformat = "%H:%M", dateformat = "%b  %d  %a" })
 
--- Software update indcator
+-- Software update indicator
 --------------------------------------------------------------------------------
 local upgrades = {}
 upgrades.widget = redflat.widget.upgrades({ command = env.upgrades })
