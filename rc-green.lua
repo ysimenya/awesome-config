@@ -122,7 +122,7 @@ volume.buttons = awful.util.table.join(
 -- Keyboard layout indicator
 --------------------------------------------------------------------------------
 local kbindicator = {}
-kbindicator.widget = redflat.widget.keyboard({ layouts = { "English", "Russian" } })
+kbindicator.widget = redflat.widget.keyboard({ layouts = { "Belgian", "English" } })
 
 kbindicator.buttons = awful.util.table.join(
 	awful.button({}, 1, function () redflat.widget.keyboard:toggle_menu() end),
