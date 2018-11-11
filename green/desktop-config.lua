@@ -32,7 +32,7 @@ function desktop:init()
 	local netspeed = { geometry = wgeometry(grid, places.netspeed, workarea) }
 
 	netspeed.args = {
-		interface    = "wlp60s0",
+		interface    = "eth1",
 		maxspeed     = { up = 5*1024^2, down = 5*1024^2 },
 		crit         = { up = 5*1024^2, down = 5*1024^2 },
 		timeout      = 2,
